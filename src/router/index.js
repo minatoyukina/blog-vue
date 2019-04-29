@@ -1,34 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Widget from '@/components/Widget'
+import List from '@/components/List'
 import Timeline from '@/components/Timeline'
+import Article from '@/components/Article'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'Header',
-      component: Header
-    },
-    {
-      path: '/footer',
-      name: 'Footer',
-      component: Footer
-    },
-    {
-      path: '/widget',
-      name: 'Widget',
-      component: Widget
+      name: 'List',
+      component: List
     },
     {
       path: '/timeline',
       name: 'Timeline',
       component: Timeline
+    },
+    {
+      path: '/article',
+      name: 'Article',
+      component: Article
     },
   ]
 })

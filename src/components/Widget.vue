@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <aside class="col-md-4 sidebar"/>
+  <aside class="col-md-4 sidebar">
     <div class="widget">
       <h3 class="title">搜索</h3>
       <div id="search-form">
@@ -29,7 +28,8 @@
       <h3 class="title">网站公告</h3>
       <div class="notification">
         <p>
-          主题下载：<a href="https://github.com/shenliyang/hexo-theme-snippet" title="fork me" target="_blank">Snippet主题</a>
+          主题下载：<a href="https://github.com/shenliyang/hexo-theme-snippet" title="fork me"
+                  target="_blank">Snippet主题</a>
           <br>
           主题使用：<a href="https://github.com/shenliyang/hexo-theme-snippet/blob/master/README.md#常见问题" title
                   target="_blank">常见使用问题</a> <br>
@@ -66,11 +66,14 @@
     <div class="widget">
       <h3 class="title">分类</h3>
       <ul class="category-list">
-        <li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa" aria-hidden="true">前端</i></a><span
+        <li class="category-list-item"><a class="category-list-link" href="/categories/前端/"><i class="fa"
+                                                                                               aria-hidden="true">前端</i></a><span
           class="category-list-count">1</span></li>
-        <li class="category-list-item"><a class="category-list-link" href="/categories/后端/"><i class="fa" aria-hidden="true">后端</i></a><span
+        <li class="category-list-item"><a class="category-list-link" href="/categories/后端/"><i class="fa"
+                                                                                               aria-hidden="true">后端</i></a><span
           class="category-list-count">1</span></li>
-        <li class="category-list-item"><a class="category-list-link" href="/categories/工具/"><i class="fa" aria-hidden="true">工具</i></a><span
+        <li class="category-list-item"><a class="category-list-link" href="/categories/工具/"><i class="fa"
+                                                                                               aria-hidden="true">工具</i></a><span
           class="category-list-count">1</span></li>
       </ul>
     </div>
@@ -79,7 +82,8 @@
     <div class="widget">
       <h3 class="title">归档</h3>
       <ul class="archive-list">
-        <li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/"><i class="fa" aria-hidden="true">2019年04月</i></a><span
+        <li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/"><i class="fa"
+                                                                                                aria-hidden="true">2019年04月</i></a><span
           class="archive-list-count">3</span></li>
       </ul>
     </div>
@@ -88,7 +92,9 @@
     <div class="widget">
       <h3 class="title">标签云</h3>
       <div class="content tag-cloud">
-        <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/coding/" style="font-size: 10px;">coding</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/自学/" style="font-size: 10px;">自学</a>
+        <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/coding/"
+                                                                   style="font-size: 10px;">coding</a>
+        <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/自学/" style="font-size: 10px;">自学</a>
       </div>
     </div>
 
@@ -99,7 +105,7 @@
         <a href="http://47.102.218.113:8080" class="fa" target="_blank">后端博客</a>
       </div>
     </div>
-  </div>
+  </aside>
 </template>
 
 <script>

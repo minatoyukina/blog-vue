@@ -28,10 +28,10 @@
                 <a href="/"><i class="fa ">首页</i> </a>
               </li>
               <li role="presentation" class="text-center">
-                <a><i class="fa ">最近在听</i> </a>
+                <a><i class="fa ">读书</i> </a>
               </li>
               <li role="presentation" class="text-center">
-                <a><i class="fa ">读书</i> </a>
+                <a><i class="fa ">最近在听</i> </a>
               </li>
               <li role="presentation" class="text-center">
                 <a><i class="fa ">电影</i> </a>
@@ -48,7 +48,6 @@
 </template>
 
 <script>
-  import "bootstrap/dist/css/bootstrap.min.css";
 
   export default {
     name: "header",
