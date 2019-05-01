@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import List from '@/components/List'
 import Timeline from '@/components/Timeline'
 import Article from '@/components/Article'
+import Page from '@/components/Page'
 
 Vue.use(Router);
 
@@ -20,9 +21,14 @@ export default new Router({
       component: Timeline
     },
     {
-      path: '/article',
+      path: '/article/:id',
       name: 'Article',
       component: Article
+    },
+    {
+      path: '/page',
+      name: 'Page',
+      component: Page
     },
   ]
 })

@@ -6,20 +6,20 @@
       </a>
     </div>
 
-    <article class="post">
+    <article class="post" v-for="blog in blogs">
       <div class="post-content">
         <div class="post-head home-post-head">
           <h1 class="post-title">
-            <a href="/article">{{title}}</a>
+            <router-link :to="'/article/'+blog.id">{{blog.title}}</router-link>
           </h1>
           <div class="post-meta"> &bull;
             <time class="post-date" datetime title>
-              {{createTime}}
+              {{blog.createTime}}
             </time>
           </div>
         </div>
         <p class="brief">
-          {{summary}}
+          {{blog.content}}
         </p>
       </div>
       <footer class="post-footer clearfix">
@@ -27,36 +27,65 @@
           <div class="post-meta">
             <span class="categories-meta fa-wrap">
               <i class="fa fa-folder-open-o"></i>
-              <a class="category-link" href="/categories/工具/">工具</a>
+              <a class="category-link" href="/categories/工具/">{{blog.catalog.name}}</a>
             </span>
             <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
-              <a class="tag-link" href="/tags/Java/">Java</a> <a class="tag-link" href="/tags/自学/">自学</a>
+              <a class="tag-link" href="/tags/Java/" v-for="tag in blog.tags.split(',')">{{tag}}</a>
             </span>
             </span>
           </div>
         </div>
         <div class="post-permalink">
-          <a href="/2019/04/13/Java自学路线推荐/" class="btn btn-default">阅读全文</a>
+          <router-link :to="'/article/'+blog.id" class="btn btn-default">阅读全文</router-link>
         </div>
       </footer>
     </article>
-    <Page/>
+    <!--<Page :totalPages="totalPages" :totalElements="totalElements"></Page>-->
+
+    <nav class="pagination" role="navigation" v-if="totalPages<7">
+      <div id="page-nav">
+        <span class="page-number current">1</span>
+        <a class="page-number" v-on:click="loadPages(i)" v-for="i in (totalPages-1)">{{i+1}}</a>
+        <a class="extend next" rel="next" v-on:click="loadPages(totalPages-1)">
+          <i class="fa fa-angle-right"></i>
+        </a>
+      </div>
+    </nav>
+    <nav class="pagination" role="navigation" v-else>
+      <span class="page-number current">1</span>
+      <span class="page-number">2</span>
+      <a href=""></a>
+    </nav>
   </main>
 </template>
 
 <script>
   import Page from "./Page";
+
   export default {
     name: "List",
     components: {Page},
     data() {
       return {
-        title: "test",
-        createTime: "2019",
-        summary: "hello",
+        blogs: "",
+        totalPages: "",
+        totalElements: "",
       }
+    },
+    methods: {
+      loadPages(page) {
+        this.axios.get("/api/blog?pageIndex=" + page)
+          .then((response) => {
+            this.blogs = response.data.blogs;
+            this.totalPages = response.data.totalPages;
+            this.totalElements = response.data.totalElements;
+          });
+      }
+    },
+    mounted() {
+      this.loadPages(0)
     }
   }
 </script>

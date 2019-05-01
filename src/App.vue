@@ -18,8 +18,8 @@
 import Widget from "./components/Widget";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import List from "@/components/List";
-import Content from "@/components/Content";
+import List from "./components/List";
+import Content from "./components/Content";
 export default {
   name: 'App',
   components: {Content, List, Header, Footer, Widget}

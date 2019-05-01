@@ -10,6 +10,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./assets/js/app";
 
+import axios from 'axios';
+Vue.prototype.axios = axios;
+
 
 Vue.config.productionTip = false;
 
