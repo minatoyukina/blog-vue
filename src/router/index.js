@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import List from '@/components/List'
 import Timeline from '@/components/Timeline'
 import Article from '@/components/Article'
-import Page from '@/components/Page'
+import Pagination from '@/components/Pagination'
 
 Vue.use(Router);
 
@@ -26,9 +26,9 @@ export default new Router({
       component: Article
     },
     {
-      path: '/page',
-      name: 'Page',
-      component: Page
+      path: '/pagination',
+      name: 'Pagination',
+      component: Pagination
     },
   ]
 })

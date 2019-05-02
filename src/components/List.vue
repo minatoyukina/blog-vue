@@ -42,36 +42,24 @@
         </div>
       </footer>
     </article>
-    <!--<Page :totalPages="totalPages" :totalElements="totalElements"></Page>-->
+    <Pagination :totalPages="totalPages"
+                :total="totalElements"
+                @change="loadPages"></Pagination>
 
-    <nav class="pagination" role="navigation" v-if="totalPages<7">
-      <div id="page-nav">
-        <span class="page-number current">1</span>
-        <a class="page-number" v-on:click="loadPages(i)" v-for="i in (totalPages-1)">{{i+1}}</a>
-        <a class="extend next" rel="next" v-on:click="loadPages(totalPages-1)">
-          <i class="fa fa-angle-right"></i>
-        </a>
-      </div>
-    </nav>
-    <nav class="pagination" role="navigation" v-else>
-      <span class="page-number current">1</span>
-      <span class="page-number">2</span>
-      <a href=""></a>
-    </nav>
   </main>
 </template>
 
 <script>
-  import Page from "./Page";
+  import Pagination from "./Pagination";
 
   export default {
     name: "List",
-    components: {Page},
+    components: {Pagination},
     data() {
       return {
         blogs: "",
-        totalPages: "",
-        totalElements: "",
+        totalPages: 0,
+        totalElements: 0,
       }
     },
     methods: {
