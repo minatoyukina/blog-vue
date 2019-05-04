@@ -26,7 +26,7 @@ export default new Router({
       component: Article
     },
     {
-      path: '/pagination',
+      path: '/page/a',
       name: 'Pagination',
       component: Pagination
     },

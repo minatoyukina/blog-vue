@@ -69,7 +69,7 @@
       }
     },
     mounted() {
-      const url = `/api/blog/${this.$route.params.id}`;
+      const url ="./blog/" + `${this.$route.params.id}`;
       this.axios.get(url)
         .then((response) => {
           this.title = response.data.title;

@@ -64,20 +64,27 @@
     },
     methods: {
       loadPages(page) {
-        this.axios.get("/api/blog?pageIndex=" + page)
+        this.axios.get("./blog?pageIndex=" + page)
           .then((response) => {
             this.blogs = response.data.blogs;
             this.totalPages = response.data.totalPages;
             this.totalElements = response.data.totalElements;
           });
+      },
+      cut(demo, num) {
+        let str = demo;
+        if (str.length >= num) {
+          let strN = str.substring(0, num);
+          strN += "...";
+          demo.html(strN);
+        }
       }
     },
     mounted() {
-      this.loadPages(0)
+      this.loadPages(0);
     }
   }
 </script>
 
 <style scoped>
-
 </style>

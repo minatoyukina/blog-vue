@@ -15,16 +15,24 @@
 </template>
 
 <script>
-import Widget from "./components/Widget";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import List from "./components/List";
-import Content from "./components/Content";
-export default {
-  name: 'App',
-  components: {Content, List, Header, Footer, Widget}
-}
+  import Widget from "./components/Widget";
+  import Footer from "./components/Footer";
+  import Header from "./components/Header";
+  import Content from "./components/Content";
+
+  export default {
+    name: 'App',
+    components: {Content, Header, Footer, Widget}
+  }
 </script>
 
-<style>
+<style scoped>
+#app{
+  color: #505050;
+  line-height: 1.75em;
+  background: #ebebeb;
+  position: relative;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  
+}
 </style>
