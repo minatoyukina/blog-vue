@@ -7,7 +7,7 @@
             <h2>2019</h2>
             <li v-for="blog in blogs">
               <h3>
-                13<span>04月</span>
+                {{blog.createTime.substring(8,10)}}<span>{{blog.createTime.split("-")[1]}}月</span>
               </h3>
               <router-link :to="'/article/'+blog.id" :title="blog.title" target="_blank">{{blog.title}}</router-link>
             </li>
@@ -27,7 +27,7 @@
       }
     },
     mounted() {
-      this.axios.get("./blog/timeline")
+      this.axios.get("/api/blog/timeline")
         .then((response) => {
           this.blogs = response.data;
         });

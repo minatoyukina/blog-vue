@@ -14,12 +14,12 @@
           </h1>
           <div class="post-meta"> &bull;
             <time class="post-date" datetime title>
-              {{blog.createTime}}
+              {{blog.createTime.split("T")[0]}}
             </time>
           </div>
         </div>
         <p class="brief">
-          {{blog.content}}
+          {{blog.content.substring(0,250)}}
         </p>
       </div>
       <footer class="post-footer clearfix">
@@ -64,7 +64,7 @@
     },
     methods: {
       loadPages(page) {
-        this.axios.get("./blog?pageIndex=" + page)
+        this.axios.get("/api/blog?pageIndex=" + page)
           .then((response) => {
             this.blogs = response.data.blogs;
             this.totalPages = response.data.totalPages;

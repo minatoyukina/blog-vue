@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import List from '@/components/List'
 import Timeline from '@/components/Timeline'
 import Article from '@/components/Article'
-import Pagination from '@/components/Pagination'
 
 Vue.use(Router);
 
@@ -25,10 +24,12 @@ export default new Router({
       name: 'Article',
       component: Article
     },
-    {
-      path: '/page/a',
-      name: 'Pagination',
-      component: Pagination
-    },
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })

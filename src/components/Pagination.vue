@@ -100,8 +100,15 @@
         if (this.index !== page) {
           this.index = page;
           //父组件通过change方法来接受当前的页码
-          this.$emit('change', this.index - 1)
+          this.$emit('change', this.index - 1);
         }
+        (function smoothScroll(){
+          let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+          if (currentScroll > 0) {
+            window.requestAnimationFrame(smoothScroll);
+            window.scrollTo (0,currentScroll - (currentScroll/5));
+          }
+        })();
       }
     },
     computed: {
@@ -165,7 +172,7 @@
       total(val) {
         this.size = val || 1
       }
-    }
+    },
   }
 </script>
 
