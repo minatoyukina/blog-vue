@@ -10,12 +10,12 @@
           <div class="post-meta">
         <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" href="/categories/后端/">{{catalog}}</a>
+            <a class="category-link" :href="'/blog?keyword='+catalog">{{catalog}}</a>
         </span>
             <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
-              <a class="tag-link" href="/tags/coding/">{{tag}}</a>
+              <a class="tag-link" :href="'/blog?keyword='+tag">{{tag}}</a>
             </span>
         </span>
             <span class="fa-wrap">

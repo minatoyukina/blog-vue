@@ -14,13 +14,12 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="navbar-header">
-          <span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu"
-                id="mnav">
-            <span class="sr-only">
-              <i class="fa fa-bars"></i>
+            <span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu"
+                  id="mnav">
+              <span class="sr-only"></span>
+                <i class="fa fa-bars"></i>
             </span>
-          </span>
-            <a href="/" class="navbar-brand">Relax-Eat-Play Loop</a>
+              <a href="/" class="navbar-brand">Relax-Eat-Play Loop</a>
           </div>
           <div class="collapse navbar-collapse" id="main-menu">
             <ul class="menu">
@@ -28,16 +27,17 @@
                 <a href="/"><i class="fa ">首页</i> </a>
               </li>
               <li role="presentation" class="text-center">
-                <a><i class="fa ">读书</i> </a>
-              </li>
-              <li role="presentation" class="text-center">
-                <a><i class="fa ">最近在听</i> </a>
-              </li>
-              <li role="presentation" class="text-center">
-                <a><i class="fa ">电影</i> </a>
-              </li>
-              <li role="presentation" class="text-center">
                 <a href="/timeline"><i class="fa ">时间轴</i> </a>
+
+              </li>
+              <li role="presentation" class="text-center">
+                <a href="/music"><i class="fa ">最近在听</i> </a>
+              </li>
+              <li role="presentation" class="text-center">
+                <a href="/film"><i class="fa ">电影</i> </a>
+              </li>
+              <li role="presentation" class="text-center">
+                <a href="/board"><i class="fa ">留言板</i> </a>
               </li>
             </ul>
           </div>

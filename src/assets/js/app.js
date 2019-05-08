@@ -29,7 +29,7 @@ window.onload = function () {
   //手机菜单导航
   $mnav.onclick = function () {
     var navOpen = $mainMenu.getAttribute("class");
-    if (navOpen.indexOf("in") !== '-1') {
+    if (navOpen.indexOf("in") != '-1') {
       $mainMenu.setAttribute("class", "collapse navbar-collapse");
     } else {
       $mainMenu.setAttribute("class", "collapse navbar-collapse in");
@@ -114,5 +114,15 @@ window.onload = function () {
       }
     });
   };
+
+  (function () {
+    timeLine('#timeline', {
+      item: '.item',
+      margin: 120, //左右之间的间距
+      top: 20,  //距离上一个item的间距
+      minTop: 10,  //如在手机下显示，可以将上下间距适当缩小
+      resize: true, //监听窗口变化
+      minScreen: 640 //当窗口小于640时，单列显示
+    });})()
 
 };

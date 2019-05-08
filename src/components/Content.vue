@@ -19,5 +19,27 @@
 </script>
 
 <style scoped>
+  .newh1 {
+    margin-left: 0;
+  }
 
+  .newh2 {
+    margin-left: 15px;
+  }
+
+  .newh3 {
+    margin-left: 30px;
+  }
+
+  .newh4 {
+    margin-left: 45px;
+  }
+
+  .newh5 {
+    margin-left: 60px;
+  }
+
+  .newh6 {
+    margin-left: 75px;
+  }
 </style>

@@ -10,7 +10,7 @@
       <div class="post-content">
         <div class="post-head home-post-head">
           <h1 class="post-title">
-            <router-link :to="'/article/'+blog.id">{{blog.title}}</router-link>
+            <router-link :to="'/article/'+blog.id" @click.native="refresh">{{blog.title}}</router-link>
           </h1>
           <div class="post-meta"> &bull;
             <time class="post-date" datetime title>
@@ -19,7 +19,7 @@
           </div>
         </div>
         <p class="brief">
-          {{blog.content.substring(0,250)}}
+          {{blog.content.length>250 ? blog.content.substring(0,250)+"..." : blog.content}}
         </p>
       </div>
       <footer class="post-footer clearfix">
@@ -27,12 +27,12 @@
           <div class="post-meta">
             <span class="categories-meta fa-wrap">
               <i class="fa fa-folder-open-o"></i>
-              <a class="category-link" href="/categories/工具/">{{blog.catalog.name}}</a>
+              <a class="category-link" :href="'/blog?keyword='+blog.catalog.name">{{blog.catalog.name}}</a>
             </span>
             <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
-              <a class="tag-link" href="/tags/Java/" v-for="tag in blog.tags.split(',')">{{tag}}</a>
+              <a class="tag-link" :href="'/blog?keyword='+tag" v-for="tag in blog.tags.split(',')">{{tag}}</a>
             </span>
             </span>
           </div>
@@ -66,18 +66,13 @@
       loadPages(page) {
         this.axios.get("/api/blog?pageIndex=" + page)
           .then((response) => {
-            this.blogs = response.data.blogs;
+            this.blogs = response.data.list;
             this.totalPages = response.data.totalPages;
             this.totalElements = response.data.totalElements;
           });
       },
-      cut(demo, num) {
-        let str = demo;
-        if (str.length >= num) {
-          let strN = str.substring(0, num);
-          strN += "...";
-          demo.html(strN);
-        }
+      refresh:function(){
+        this.$router.go(0);
       }
     },
     mounted() {

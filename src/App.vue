@@ -5,7 +5,7 @@
       <div class="container">
         <div class="row">
           <router-view/>
-          <Widget v-if="$route.path.split('/')[1]!=='article'"/>
+          <Widget v-if="$route.path.split('/')[1]!=='board'&& $route.path.split('/')[1]!=='article'"/>
         </div>
       </div>
     </section>
@@ -30,6 +30,7 @@
     line-height: 1.75em;
     background: #ebebeb;
     position: relative;
+    overflow-x: hidden;
     font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
   }
 </style>

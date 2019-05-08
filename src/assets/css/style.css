@@ -400,7 +400,7 @@ pre {
   visibility: hidden;
   background: #fff;
   text-align: left;
-  padding: 7px 0px;
+  padding: 7px 0;
   margin: 0;
   position: absolute;
   left: 0;
@@ -434,6 +434,8 @@ pre {
 
 .main-navigation .navbar-header {
   text-align: center;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .main-navigation .navbar-header i {
