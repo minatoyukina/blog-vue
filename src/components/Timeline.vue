@@ -9,7 +9,7 @@
               <h3>
                 {{blog.createTime.substring(8,10)}}<span>{{blog.createTime.split("-")[1]}}月</span>
               </h3>
-              <router-link :to="'/article/'+blog.id" :title="blog.title" target="_blank">{{blog.title}}</router-link>
+              <router-link :to="'/article/'+blog.id" :title="blog.title">{{blog.title}}</router-link>
             </li>
           </ul>
         </div>
@@ -27,7 +27,7 @@
       }
     },
     mounted() {
-      this.axios.get("/api/blog/timeline")
+      this.axios.get("/api/restapi/timeline")
         .then((response) => {
           this.blogs = response.data;
         });

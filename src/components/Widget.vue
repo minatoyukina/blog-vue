@@ -92,9 +92,7 @@
     <div class="widget">
       <h3 class="title">标签云</h3>
       <div class="content tag-cloud">
-        <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/coding/"
-                                                                   style="font-size: 10px;">coding</a>
-        <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/自学/" style="font-size: 10px;">自学</a>
+        <a v-for="tag in tags" href="/tags/Java/" style="font-size: 10px;">{{tag.name}}</a>
       </div>
     </div>
 
@@ -110,7 +108,17 @@
 
 <script>
   export default {
-    name: "Widget"
+    name: "Widget",
+    data(){
+      return{
+        tags: []
+      }
+    },
+    mounted(){
+      this.axios.get("/api/restapi/tag").then(response=>{
+        this.tags=response.data
+      })
+    }
   }
 </script>
 

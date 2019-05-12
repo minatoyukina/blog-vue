@@ -71,7 +71,7 @@
       //总记录数
       total: {
         type: Number,
-        default: 13
+        default: 16
       },
 
     },

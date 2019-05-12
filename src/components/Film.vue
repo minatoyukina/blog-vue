@@ -13,7 +13,7 @@
     <div class="grid-view" v-for="film in films">
       <div class="item">
         <div class="pic">
-          <a :title="film.title" :href="film.subject" class="nbg">
+          <a :title="film.title" :href="film.subject" class="nbg" target="_blank">
             <img :src="film.pic" :alt="film.title">
           </a>
         </div>
@@ -53,7 +53,7 @@
     methods: {
       loadPages(page) {
         this.page = page;
-        this.axios.get("/api/blog/film?pageIndex=" + page)
+        this.axios.get("/api/restapi/film?pageIndex=" + page)
           .then((response) => {
             this.films = response.data.list;
             this.totalPages = response.data.totalPages;

@@ -1,18 +1,17 @@
 <template>
   <main class="col-md-12 main-content">
+    <Message url="/api/restapi/board" ref="analyze"/>
     <div id="timeline">
       <div v-for="(li,i) in list" :class="['item', {'isLeft':i % 2===0}, {'isRight':i % 2===1}]">
         <div class="content">
-          <p>
-            SmohanTimeLine是一款基于原生JavaScript的支持移动端的时间轴插件，大小仅仅4KB。需要简单的配置，就可以完成你的时间轴，记录流转的时光。SmohanTimeLine是一款基于原生JavaScript的支持移动端的时间轴插件，大小仅仅4KB。需要简单的配置，就可以完成你的时间轴，记录流转的时光。</p>
+          <p>{{li.userName}}</p>
+          <p>{{li.createTime}}</p>
+          <p v-html="emoji(li.content)"></p>
         </div>
         <span class="corner"></span>
         <span class="point"></span>
       </div>
-
-
-      <div class="line"></div>
-
+      <div class="line" style="margin-top: 20px"></div>
     </div>
   </main>
 </template>
@@ -20,15 +19,27 @@
 <script>
 
   import "../assets/js/timeLine"
+  import Message from "./Message";
 
   export default {
     name: "Board",
+    components: {Message},
     data() {
       return {
-        list: new Array(20),
-        test: "abcdef"
+        list: [],
       }
     },
+    methods:{
+      emoji(content){
+        return this.$refs.analyze.analyzeEmoji(content)
+      }
+    },
+    mounted(){
+      this.axios.get("/api/restapi/board")
+        .then(response=>{
+          this.list=response.data.list;
+        })
+    }
   }
 </script>
 

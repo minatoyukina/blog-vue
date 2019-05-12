@@ -4,7 +4,7 @@
       <div class="u-title u-tltle-1 f-cb m-record-title" id="rHeader">
         <div>
           <span style="font-size: 24px">听歌排行</span>&nbsp;
-          <span>累积听歌26145首</span>
+          <span>累积听歌{{songs[0].total}}首</span>
           <span>更新于{{songs[0].date}}</span>
         </div>
         <div class="nav f-cb">
@@ -24,7 +24,7 @@
                 <div class="tt">
                   <div class="ttc">
                     <span class="txt">
-                      <a :href="item.link">
+                      <a :href="item.link" target="_blank">
                         <b title="">{{item.title}}</b>
                       </a>
                       <span class="ar s-fc-8">
@@ -58,7 +58,7 @@
     },
     methods:{
       loadSongs(type) {
-              this.axios.get("/api/blog/music?type=" + type)
+              this.axios.get("/api/restapi/music?type=" + type)
                 .then((response) => {
                   this.songs = response.data;
                 });

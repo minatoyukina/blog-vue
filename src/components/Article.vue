@@ -4,7 +4,7 @@
       <p id="process"></p>
       <article class="post">
         <div class="post-head">
-          <h1 id="个人代码规范">
+          <h1>
             {{title}}
           </h1>
           <div class="post-meta">
@@ -33,7 +33,7 @@
         </div>
         <div class="post-footer">
           <div>
-            转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">minatoyukina</a>
+            转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="/">シロクマ</a>
           </div>
         </div>
       </article>
@@ -49,8 +49,55 @@
           <span class="hidden-xs">Hello World</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
       </div>
-      <div id="comments">
-        <div id="vcomments" class="valine"></div>
+      <Message :url="'/api/restapi/comment?blogId='+ `${this.$route.params.id}`"
+               ref="analyze"/>
+      <div class="tmsg-comments" ref="listDom">
+        <a class="tmsg-comments-tip">活捉 {{total}} 条</a>
+        <div class="tmsg-commentshow">
+          <ul class="tmsg-commentlist">
+            <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
+              <article class="">
+                <header>
+                  <img :src="item.avatar">
+                  <div class="i-name">
+                    {{item.userName}}
+                  </div>
+                  <div class="i-time">
+                    <time>{{item.createTime}}</time>
+                  </div>
+                </header>
+                <section>
+                  <p v-html="emoji(item.content)"></p>
+                  <div class="tmsg-replay" @click="respondMsg(item.comment_id,item.comment_id)">回复
+                  </div>
+                </section>
+              </article>
+              <ul v-show="item.ChildsSon" class="tmsg-commentlist" style="padding-left:60px;">
+                <li class="tmsg-c-item" v-for="(cItem,cIndex) in item.ChildsSon" :key="'cItem'+cIndex">
+                  <article class="">
+                    <header>
+                      <img :src="cItem.avatar">
+                      <div class="i-name">
+                        {{cItem.userName}} <span>回复</span> {{cItem.reply_name}}
+                      </div>
+                      <div class="i-time">
+                        <time>{{cItem.time}}</time>
+                      </div>
+                    </header>
+                    <section>
+                      <p v-html="emoji(cItem.content)">{{cItem.content}}</p>
+                      <div class="tmsg-replay" @click="respondMsg(cItem.comment_id,item.comment_id)">
+                        回复
+                      </div>
+                    </section>
+                  </article>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <h1 v-show='hasMore' class="tcolors-bg" @click="addMoreFun">查看更多</h1>
+          <h1 v-show='!hasMore' class="tcolors-bg">没有更多</h1>
+        </div>
       </div>
     </main>
     <Content :message="message"/>
@@ -59,10 +106,11 @@
 
 <script>
   import Content from "./Content";
+  import Message from "./Message";
 
   export default {
     name: "Article",
-    components: {Content},
+    components: {Message, Content},
     data() {
       return {
         title: "",
@@ -72,6 +120,15 @@
         readSize: "",
         htmlContent: "",
         message: "",
+
+        commentList: [],//评论列表数据
+        pageId: 0,//当前第几页
+        hasMore: true,
+        userId: '',//用户id
+        leaveId: 0,//回复评论的当前的commentId
+        pid: '',
+        currentPage: 1,
+        total: 0,
       }
     },
     methods: {
@@ -104,11 +161,35 @@
         let str = tmpNode.innerHTML;
         tmpNode = node = null; // 解除引用，以便于垃圾回收
         return str;
+      },
+
+      respondMsg(leavePid, pid) {//回复留言
+        let dom = event.currentTarget;
+        dom = dom.parentNode;
+        this.isRespond = true;
+        this.pid = pid;
+        dom.appendChild(this.$refs.respondBox);
+
+      }
+      ,
+      showCommentList(page) {//评论列表
+        this.axios.get("/api/restapi/comment?pageIndex=" + page + "&blogId=" + `${this.$route.params.id}`)
+          .then(response => {
+            this.total = response.data.totalElements;
+            this.commentList.push(response.data.list);
+            this.hasMore = response.data.totalPages > this.currentPage;
+          })
+      },
+      addMoreFun() {//查看更多
+        this.showCommentList(this.currentPage++);
+      },
+      emoji(content) {
+        return this.$refs.analyze.analyzeEmoji(content)
       }
     },
     mounted() {
       let _this = this;
-      const url = "/api/blog/" + `${this.$route.params.id}`;
+      const url = "/api/restapi/" + `${this.$route.params.id}`;
       this.axios.get(url)
         .then((response) => {
           this.title = response.data.title;
@@ -119,11 +200,11 @@
           this.htmlContent = response.data.htmlContent;
         }).then(function () {
         _this.content();
-      });
+      }).then(_this.showCommentList(0));
     }
   }
 </script>
 
 <style scoped>
-
+  @import "../assets/css/message.css";
 </style>

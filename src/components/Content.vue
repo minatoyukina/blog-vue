@@ -18,8 +18,8 @@
   }
 </script>
 
-<style scoped>
-  .newh1 {
+<style>
+ .newh1 {
     margin-left: 0;
   }
 
