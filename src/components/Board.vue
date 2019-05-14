@@ -5,8 +5,9 @@
       <div v-for="(li,i) in list" :class="['item', {'isLeft':i % 2===0}, {'isRight':i % 2===1}]">
         <div class="content">
           <p>{{li.userName}}</p>
-          <p>{{li.createTime}}</p>
+          <p>{{timeAgo(new Date(li.createTime).getTime())}}</p>
           <p v-html="emoji(li.content)"></p>
+          <a v-show="$store.state.userInfo.nick" @click="respondMsg(li.id,li.userName)">回复</a>
         </div>
         <span class="corner"></span>
         <span class="point"></span>
@@ -27,31 +28,67 @@
     data() {
       return {
         list: [],
+        id: 0
       }
     },
-    methods:{
-      emoji(content){
+    methods: {
+      timeAgo(dateTimeStamp) {
+        let result;
+        let minute = 1000 * 60;      //把分，时，天，周，半个月，一个月用毫秒表示
+        let hour = minute * 60;
+        let day = hour * 24;
+        let week = day * 7;
+        let month = day * 30;
+        let now = new Date().getTime();   //获取当前时间毫秒
+        let diffValue = now - dateTimeStamp;//时间差
+        if (diffValue < 0) {
+          return;
+        }
+        let minC = diffValue / minute;  //计算时间差的分，时，天，周，月
+        let hourC = diffValue / hour;
+        let dayC = diffValue / day;
+        let weekC = diffValue / week;
+        let monthC = diffValue / month;
+        if (monthC >= 1) {
+          result = " " + parseInt(monthC) + "月前"
+        }
+        else if (weekC >= 1) {
+          result = " " + parseInt(weekC) + "周前"
+        }
+        else if (dayC >= 1) {
+          result = " " + parseInt(dayC) + "天前"
+        }
+        else if (hourC >= 1) {
+          result = " " + parseInt(hourC) + "小时前"
+        }
+        else if (minC >= 1) {
+          result = " " + parseInt(minC) + "分钟前"
+        }
+        else {
+          result = "刚刚";
+        }
+
+        return result;
+      },
+      emoji(content) {
         return this.$refs.analyze.analyzeEmoji(content)
-      }
+      },
+      respondMsg(id, replyTo) {//回复留言
+        let dom = event.currentTarget;
+        dom = dom.parentNode;
+        dom.appendChild(this.$refs.analyze.getReplyDom(replyTo));
+      },
     },
-    mounted(){
+    mounted() {
       this.axios.get("/api/restapi/board")
-        .then(response=>{
-          this.list=response.data.list;
+        .then(response => {
+          this.list = response.data.list;
         })
     }
   }
 </script>
 
 <style scoped>
-  .container {
-    position: relative;
-    width: 86%;
-    max-width: 1280px;
-    min-width: 480px;
-    overflow: hidden;
-  }
-
   #timeline {
     position: relative;
     min-height: 660px;

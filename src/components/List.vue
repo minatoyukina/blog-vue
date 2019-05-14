@@ -1,5 +1,5 @@
 <template>
-  <main class="col-md-8 main-content ">
+  <main class="col-md-8 main-content">
     <div class="carousel">
       <a href="javascript:" target="_blank">
         <img src="./../assets/img/head-img.jpg">
@@ -10,7 +10,7 @@
       <div class="post-content">
         <div class="post-head home-post-head">
           <h1 class="post-title">
-            <router-link :to="'/article/'+blog.blogId" @click.native="refresh">{{blog.title}}</router-link>
+            <router-link :to="'/article/'+blog.id" @click.native="refresh">{{blog.title}}</router-link>
           </h1>
           <div class="post-meta"> &bull;
             <time class="post-date" datetime title>
@@ -25,10 +25,10 @@
       <footer class="post-footer clearfix">
         <div class="pull-left tag-list">
           <div class="post-meta">
-          <!--<span class="categories-meta fa-wrap">-->
-            <!--<i class="fa fa-folder-open-o"></i>-->
-            <!--<a class="category-link" :href="'/blog?keyword='+blog.catalog.name">{{blog.catalog.name}}</a>-->
-         <!--</span>-->
+          <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" :href="'/blog?keyword='+blog.catalog.name">{{blog.catalog.name}}</a>
+         </span>
             <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="post-permalink">
-          <router-link :to="'/article/'+blog.id" class="btn btn-default" @click.native="refresh">阅读全文</router-link>
+          <router-link :to="'/article/'+blog.blogId" class="btn btn-default" @click.native="refresh">阅读全文</router-link>
         </div>
       </footer>
     </article>
@@ -73,12 +73,13 @@
           });
       },
       loadKeyWords(keyword) {
-        this.axios.get("/api/restapi?pageIndex=999&keyword=" + keyword)
+        this.axios.get("/api/restapi?pageSize=999&keyword=" + keyword)
           .then((response) => {
             this.blogs = response.data.list;
             this.totalPages = response.data.totalPages;
             this.totalElements = response.data.totalElements;
           });
+        window.scroll(0)
       },
       refresh: function () {
         this.$router.go(0);

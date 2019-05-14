@@ -49,7 +49,7 @@
 
 <script>
   export default {
-    name: "header",
+    name: "headerNav",
     data() {
       return {
         img: require('./../assets/img/banner.jpg')

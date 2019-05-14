@@ -6,7 +6,8 @@ import Film from '@/components/Film'
 import Board from '@/components/Board'
 import Music from '@/components/Music'
 import Article from '@/components/Article'
-import Message from '@/components/Message'
+import Search from '@/components/Search'
+import Login from '@/components/Login'
 
 Vue.use(Router);
 
@@ -39,9 +40,14 @@ export default new Router({
       component: Music
     },
     {
-      path: '/message',
-      name: 'Message',
-      component: Message
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
     },
     {
       path: '/article/:id',

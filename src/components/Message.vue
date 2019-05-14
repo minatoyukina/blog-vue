@@ -9,15 +9,15 @@
         <input type="text" v-model="website"/>
         <textarea placeholder="说点什么呢~" v-model="content" style="width: 100%"></textarea>
         <div :class="pBody?'OwO':'OwO OwO-open'">
-          <div class="OwO-logo" @click="pBody=!pBody" style="height: 36px">
-            <span>OwO表情</span>
+          <div class="OwO-logo">
+            <span id='toggle-btn'>OwO表情</span>
           </div>
           <button type="button" class="btn btn-default" @click="sendMsg(url)" style="float: right">{{sendTip}}</button>
           <div class="OwO-body">
             <ul class="OwO-items OwO-items-show">
               <li class="OwO-item" v-for="(oItem,index) in OwOList" :key="'oItem'+index"
                   @click="chooseEmoji(oItem.title)">
-                <img :src="'/static/emoji/'+oItem.url" alt="">
+                <img :src="'/static/emoji/'+oItem.url" alt="" id="toggle-trigger">
               </li>
             </ul>
           </div>
@@ -32,7 +32,6 @@
     name: "Message",
     data() { //选项 / 数据
       return {
-        respondBox: '',//评论表单
         listDom: '',//评论列表
         tmsgBox: '',//总评论盒子
         isRespond: false,
@@ -40,7 +39,6 @@
         email: '',
         website: '',
         content: '',//文本框输入内容
-        createTime: '',
         pBody: true,//表情打开控制
         sendTip: '发送~',
         OwOList: [//表情包和表情路径
@@ -120,9 +118,21 @@
       }
     },
     props: {
+      commentUrl: {
+        type: String,
+        default: ''
+      },
+      replyUrl: {
+        type: String,
+        default: ''
+      },
       url: {
         type: String,
         default: ''
+      },
+      isReply: {
+        type: Boolean,
+        default: false
       },
     },
     methods: { //事件处理器
@@ -151,6 +161,9 @@
       },
       //发送留言
       sendMsg(url) {//留言
+        if (this.$route.path !== "/board") {
+          this.isReply ? url = this.replyUrl : url = this.commentUrl;
+        }
         let that = this;
         if (that.content) {
           that.sendTip = '咻~~';
@@ -172,8 +185,21 @@
             clearTimeout(timer);
           }, 3000)
         }
+      },
+      getReplyDom(replyTo) {
+        let dom = this.$refs.respondBox;
+        this.content="回复@" + replyTo + ": ";
+        // dom.getElementsByTagName('textarea')[0].value = "回复@" + replyTo + ": ";
+        return dom
       }
-    }
+    },
+    created() {
+      let _this = this;
+      let body = document.querySelector('body');
+      body.addEventListener('click', (e) => {
+        _this.pBody = !(e.target.id === 'toggle-btn' || e.target.id === 'toggle-trigger');
+      }, false)
+    },
   }
 </script>
 

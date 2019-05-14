@@ -15,12 +15,12 @@
             <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
-              <a class="tag-link" :href="'/blog?keyword='+tag">{{tag}}</a>
+              <a class="tag-link" v-for="word in tag.split(',')" :href="'/blog?keyword='+word">{{word}}</a>
             </span>
         </span>
             <span class="fa-wrap">
             <i class="fa fa-clock-o"></i>
-            <span class="date-meta">{{createTime}}</span>
+            <span class="date-meta">{{new Date(createTime).toLocaleString('chinese',{hour12:false})}}</span>
         </span>
             <span class="fa-wrap">
             <i class="fa fa-eye"></i>
@@ -49,44 +49,46 @@
           <span class="hidden-xs">Hello World</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
       </div>
-      <Message :url="'/api/restapi/comment?blogId='+ `${this.$route.params.id}`"
+      <Message :commentUrl="'/api/restapi/comment?blogId='+ `${this.$route.params.id}`"
+               :isReply="isReply"
+               :replyUrl="'/api/restapi/reply?commentId='+ commentId"
                ref="analyze"/>
       <div class="tmsg-comments" ref="listDom">
-        <a class="tmsg-comments-tip">活捉 {{total}} 条</a>
+        <div class="tmsg-comments-tip">活捉 {{total}} 条</div>
         <div class="tmsg-commentshow">
           <ul class="tmsg-commentlist">
             <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
               <article class="">
                 <header>
-                  <img :src="item.avatar">
+                  <img src="../assets/img/default-ico.jpg">
                   <div class="i-name">
                     {{item.userName}}
                   </div>
                   <div class="i-time">
-                    <time>{{item.createTime}}</time>
+                    <time>{{new Date(item.createTime).toLocaleString()}}</time>
                   </div>
                 </header>
                 <section>
                   <p v-html="emoji(item.content)"></p>
-                  <div class="tmsg-replay" @click="respondMsg(item.comment_id,item.comment_id)">回复
+                  <div class="tmsg-replay" @click="respondMsg(item.id,item.userName)">回复
                   </div>
                 </section>
               </article>
-              <ul v-show="item.ChildsSon" class="tmsg-commentlist" style="padding-left:60px;">
-                <li class="tmsg-c-item" v-for="(cItem,cIndex) in item.ChildsSon" :key="'cItem'+cIndex">
+              <ul v-show="item.restCommentReplyList" class="tmsg-commentlist" style="padding-left:60px;">
+                <li class="tmsg-c-item" v-for="(cItem,cIndex) in item.restCommentReplyList" :key="'cItem'+cIndex">
                   <article class="">
                     <header>
-                      <img :src="cItem.avatar">
+                      <img src="../assets/img/default-ico.jpg">
                       <div class="i-name">
-                        {{cItem.userName}} <span>回复</span> {{cItem.reply_name}}
+                        {{cItem.userName}}
                       </div>
                       <div class="i-time">
-                        <time>{{cItem.time}}</time>
+                        <time>{{new Date(cItem.createTime).toLocaleString()}}</time>
                       </div>
                     </header>
                     <section>
-                      <p v-html="emoji(cItem.content)">{{cItem.content}}</p>
-                      <div class="tmsg-replay" @click="respondMsg(cItem.comment_id,item.comment_id)">
+                      <p v-html="emoji(cItem.content)"></p>
+                      <div class="tmsg-replay" @click="respondMsg(item.id,cItem.userName)">
                         回复
                       </div>
                     </section>
@@ -122,11 +124,9 @@
         message: "",
 
         commentList: [],//评论列表数据
-        pageId: 0,//当前第几页
+        isReply: false,
         hasMore: true,
-        userId: '',//用户id
-        leaveId: 0,//回复评论的当前的commentId
-        pid: '',
+        commentId: '',
         currentPage: 1,
         total: 0,
       }
@@ -141,7 +141,6 @@
         } else {
           header.forEach((item, i) => {
             let tag = item.localName;
-            console.log(item);
             item.setAttribute("id", "wow" + i);
             _this.message += ('<li class="new' + tag + '"><a href="#wow' + i + '">' + item.innerText + '</a></li>');
           });
@@ -163,20 +162,21 @@
         return str;
       },
 
-      respondMsg(leavePid, pid) {//回复留言
+      respondMsg(commentId, replyTo) {//回复留言
+        this.isReply = true;
         let dom = event.currentTarget;
         dom = dom.parentNode;
-        this.isRespond = true;
-        this.pid = pid;
-        dom.appendChild(this.$refs.respondBox);
-
-      }
-      ,
+        this.commentId = commentId;
+        dom.appendChild(this.$refs.analyze.getReplyDom(replyTo));
+      },
       showCommentList(page) {//评论列表
+        let _this = this;
         this.axios.get("/api/restapi/comment?pageIndex=" + page + "&blogId=" + `${this.$route.params.id}`)
           .then(response => {
             this.total = response.data.totalElements;
-            this.commentList.push(response.data.list);
+            response.data.list.forEach(function (item) {
+              _this.commentList.push(item)
+            });
             this.hasMore = response.data.totalPages > this.currentPage;
           })
       },
@@ -207,4 +207,12 @@
 
 <style scoped>
   @import "../assets/css/message.css";
+
+  li {
+    list-style-type: none;
+  }
+
+  .tcolors-bg {
+    font-size: small;
+  }
 </style>
