@@ -102,11 +102,11 @@
           //父组件通过change方法来接受当前的页码
           this.$emit('change', this.index - 1);
         }
-        (function smoothScroll(){
+        (function smoothScroll() {
           let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
           if (currentScroll > 0) {
             window.requestAnimationFrame(smoothScroll);
-            window.scrollTo (0,currentScroll - (currentScroll/5));
+            window.scrollTo(0, currentScroll - (currentScroll / 5));
           }
         })();
       }

@@ -19,7 +19,7 @@
           </div>
         </div>
         <p class="brief">
-          {{blog.content.length>250 ? blog.content.substring(0,250)+"..." : blog.content}}
+          {{blog.content.length>250 ? blog.content.split("#").join('').substring(0,250)+"..." : blog.content}}
         </p>
       </div>
       <footer class="post-footer clearfix">
@@ -27,12 +27,12 @@
           <div class="post-meta">
           <span class="categories-meta fa-wrap">
             <i class="fa fa-folder-open-o"></i>
-            <a class="category-link" :href="'/blog?keyword='+blog.catalog.name">{{blog.catalog.name}}</a>
+            <a class="category-link" :href="'/search?keyword='+blog.catalog.name">{{blog.catalog.name}}</a>
          </span>
             <span class="fa-wrap">
             <i class="fa fa-tags"></i>
             <span class="tags-meta">
-              <a class="tag-link" v-for="tag in blog.tags.split(',')" @click="loadKeyWords(tag)">{{tag}}</a>
+              <a class="tag-link" v-for="tag in blog.tags.split(',')" :href="'/search?keyword='+tag">{{tag}}</a>
             </span>
             </span>
           </div>
@@ -60,7 +60,6 @@
         blogs: "",
         totalPages: 0,
         totalElements: 0,
-        tag: ""
       }
     },
     methods: {
@@ -71,15 +70,6 @@
             this.totalPages = response.data.totalPages;
             this.totalElements = response.data.totalElements;
           });
-      },
-      loadKeyWords(keyword) {
-        this.axios.get("/api/restapi?pageSize=999&keyword=" + keyword)
-          .then((response) => {
-            this.blogs = response.data.list;
-            this.totalPages = response.data.totalPages;
-            this.totalElements = response.data.totalElements;
-          });
-        window.scroll(0)
       },
       refresh: function () {
         this.$router.go(0);

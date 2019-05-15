@@ -3,7 +3,7 @@
     <div class="opt-bar mb30 clearfix">
       <div class="sort">
         最近看过<span class="gray-dot">·</span>
-        <a href="">我的收藏</a>
+        <a href="#">我的收藏</a>
       </div>
       <div class="mode">
         <span class="subject-num">{{page*5+1}}-{{(page+1)*5}}&nbsp;/&nbsp;{{totalElements}}</span>

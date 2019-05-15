@@ -8,9 +8,9 @@
           <span>更新于{{songs[0].date}}</span>
         </div>
         <div class="nav f-cb">
-          <span id="songsall" class="z-sel">所有时间</span>
+          <span id="songsall" :class="{'z-sel': type==='ALL'}" @click="loadSongs('ALL')">所有时间</span>
           <i></i>
-          <span id="songsweek">最近一周</span>
+          <span id="songsweek" :class="{'z-sel': type==='WEEK'}" @click="loadSongs('WEEK')">最近一周</span>
         </div>
       </div>
       <div id="m-record" class='m-record '>
@@ -53,21 +53,23 @@
     name: "Music",
     data() {
       return {
-        songs: []
+        songs: [],
+        type: null
       }
     },
-    methods:{
+    methods: {
       loadSongs(type) {
-              this.axios.get("/api/restapi/music?type=" + type)
-                .then((response) => {
-                  this.songs = response.data;
-                });
-          },
+        this.type = type;
+        this.axios.get("/api/restapi/music?type=" + type)
+          .then((response) => {
+            this.songs = response.data;
+          });
+      },
     },
-    mounted(){
-    this.loadSongs("WEEK")
+    mounted() {
+      this.loadSongs("WEEK")
+    }
   }
-}
 </script>
 
 <style scoped>
@@ -118,6 +120,11 @@
   .m-record-title .nav span, .m-record-title .nav i {
     float: right;
     margin-left: 8px;
+  }
+
+  .m-record-title .nav span.z-sel {
+    color: #333;
+    font-weight: 700;
   }
 
   .m-record li {

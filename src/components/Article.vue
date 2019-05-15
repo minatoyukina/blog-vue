@@ -60,7 +60,7 @@
             <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
               <article class="">
                 <header>
-                  <img src="../assets/img/default-ico.jpg">
+                  <img :src="emailToICO(item.email)">
                   <div class="i-name">
                     {{item.userName}}
                   </div>
@@ -78,7 +78,7 @@
                 <li class="tmsg-c-item" v-for="(cItem,cIndex) in item.restCommentReplyList" :key="'cItem'+cIndex">
                   <article class="">
                     <header>
-                      <img src="../assets/img/default-ico.jpg">
+                      <img :src="emailToICO(item.email)">
                       <div class="i-name">
                         {{cItem.userName}}
                       </div>
@@ -185,6 +185,12 @@
       },
       emoji(content) {
         return this.$refs.analyze.analyzeEmoji(content)
+      },
+      emailToICO(email) {
+        if (email.indexOf('@qq')!==-1) {
+          return 'http://q4.qlogo.cn/g?b=qq&nk=' + email.split('@')[0] + '&s=100'
+        }
+        return "/static/default-ico.jpg"
       }
     },
     mounted() {

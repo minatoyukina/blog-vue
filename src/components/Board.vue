@@ -4,9 +4,15 @@
     <div id="timeline">
       <div v-for="(li,i) in list" :class="['item', {'isLeft':i % 2===0}, {'isRight':i % 2===1}]">
         <div class="content">
-          <p>{{li.userName}}</p>
-          <p>{{timeAgo(new Date(li.createTime).getTime())}}</p>
-          <p v-html="emoji(li.content)"></p>
+          <div style="margin-bottom: 5px">
+            <a :href="!li.website?'javascript:':'//'+li.website">
+              <img :src="emailToICO(li.email)"
+                   style="width: 24px;height: 24px;border-radius: 50%">
+            </a>
+            <strong style="color: #70ca10;">&ensp;{{li.userName}}</strong>
+            <span style="float: right">{{li.id}}楼&ensp;|&ensp;<time>{{timeAgo(new Date(li.createTime).getTime())}}</time></span>
+          </div>
+          <div v-html="emoji(li.content)" style="margin-left: 5px;word-break:break-all;"></div>
           <a v-show="$store.state.userInfo.nick" @click="respondMsg(li.id,li.userName)">回复</a>
         </div>
         <span class="corner"></span>
@@ -14,21 +20,27 @@
       </div>
       <div class="line" style="margin-top: 20px"></div>
     </div>
+    <Pagination :totalPages="totalPages"
+                :total="totalElements"
+                pageSize=30
+                @change="loadPages"/>
   </main>
 </template>
 
 <script>
-
   import "../assets/js/timeLine"
   import Message from "./Message";
+  import Pagination from "./Pagination";
 
   export default {
     name: "Board",
-    components: {Message},
+    components: {Message, Pagination},
     data() {
       return {
         list: [],
-        id: 0
+        id: 0,
+        totalPages: 0,
+        totalElements: 0,
       }
     },
     methods: {
@@ -78,12 +90,23 @@
         dom = dom.parentNode;
         dom.appendChild(this.$refs.analyze.getReplyDom(replyTo));
       },
+      emailToICO(email) {
+        if (email.indexOf('@qq') !== -1) {
+          return 'http://q4.qlogo.cn/g?b=qq&nk=' + email.split('@')[0] + '&s=100'
+        }
+        return "/static/default-ico.jpg"
+      },
+      loadPages(page) {
+        this.axios.get("/api/restapi/board?pageIndex=" + page)
+          .then(response => {
+            this.list = response.data.list;
+            this.totalPages = response.data.totalPages;
+            this.totalElements = response.data.totalElements;
+          })
+      },
     },
     mounted() {
-      this.axios.get("/api/restapi/board")
-        .then(response => {
-          this.list = response.data.list;
-        })
+      this.loadPages(0)
     }
   }
 </script>

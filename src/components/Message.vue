@@ -3,10 +3,13 @@
     <div class="tmsg-respond" ref="respondBox">
       <h3>发表评论
       </h3>
-      <form class="">
-        <input type="text" v-model="username"/>
-        <input type="text" v-model="email"/>
-        <input type="text" v-model="website"/>
+      <form>
+        <div class="vwrap"></div>
+        <div class="vheader item2">
+          <input type="text" name="nick" placeholder="昵称" v-model="username" class="vnick vinput"/>
+          <input type="text" name="mail" placeholder="邮箱" v-model="email" class="vmail vinput"/>
+          <input type="text" name="website" placeholder="博客或主页(可选)" v-model="website" class="vwebsite vinput"/>
+        </div>
         <textarea placeholder="说点什么呢~" v-model="content" style="width: 100%"></textarea>
         <div :class="pBody?'OwO':'OwO OwO-open'">
           <div class="OwO-logo">
@@ -188,8 +191,7 @@
       },
       getReplyDom(replyTo) {
         let dom = this.$refs.respondBox;
-        this.content="回复@" + replyTo + ": ";
-        // dom.getElementsByTagName('textarea')[0].value = "回复@" + replyTo + ": ";
+        this.content = "回复@" + replyTo + ": ";
         return dom
       }
     },

@@ -1,10 +1,8 @@
 <template>
   <main class="col-md-8 main-content">
-    <div class="carousel">
-      <a href="javascript:" target="_blank">
-        <img src="./../assets/img/head-img.jpg">
-      </a>
-    </div>
+    <ol class="breadcrumb">
+      <li>{{this.$route.fullPath.split("=")[1]}}</li>
+    </ol>
 
     <article class="post" v-for="blog in blogs">
       <div class="post-content">
@@ -25,14 +23,39 @@
     </article>
     <Pagination :totalPages="totalPages"
                 :total="totalElements"
-                @change="loadPages"></Pagination>
+                @change="loadKeyWords"></Pagination>
 
   </main>
 </template>
 
 <script>
+  import Pagination from "./Pagination";
+
   export default {
-    name: "Search"
+    name: "Search",
+    components: {Pagination},
+    data() {
+      return {
+        blogs: [],
+        totalPages: 0,
+        totalElements: 0,
+      }
+    },
+    methods: {
+      loadKeyWords(page) {
+        this.axios.get("/api/restapi" + this.$route.fullPath + "&pageIndex=" + page)
+          .then((response) => {
+            this.blogs = response.data.list;
+            this.totalPages = response.data.totalPages;
+            this.totalElements = response.data.totalElements;
+          });
+      }
+
+    },
+    mounted() {
+      this.loadKeyWords(0)
+    }
+
   }
 </script>
 
