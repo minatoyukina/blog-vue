@@ -4,17 +4,14 @@
       <h3>发表评论
       </h3>
       <form>
-        <div class="vwrap"></div>
-        <div class="vheader item2">
-          <input type="text" name="nick" placeholder="昵称" v-model="username" class="vnick vinput"/>
-          <input type="text" name="mail" placeholder="邮箱" v-model="email" class="vmail vinput"/>
-          <input type="text" name="website" placeholder="博客或主页(可选)" v-model="website" class="vwebsite vinput"/>
+        <div class="item3">
+          <input type="text" name="nick" placeholder="昵称" v-model="username" class="col-md-4"/>
+          <input type="text" name="mail" placeholder="邮箱" v-model="email" class="col-md-4"/>
+          <input type="text" name="website" placeholder="博客或主页(可选)" v-model="website" class="col-md-4"/>
         </div>
         <textarea placeholder="说点什么呢~" v-model="content" style="width: 100%"></textarea>
         <div :class="pBody?'OwO':'OwO OwO-open'">
-          <div class="OwO-logo">
-            <span id='toggle-btn'>OwO表情</span>
-          </div>
+          <span class="fa fa-smile-o fa-2x" style="margin-top: 4px" id='toggle-btn'></span>
           <button type="button" class="btn btn-default" @click="sendMsg(url)" style="float: right">{{sendTip}}</button>
           <div class="OwO-body">
             <ul class="OwO-items OwO-items-show">

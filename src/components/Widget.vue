@@ -32,7 +32,7 @@
         <a href="/" rel="external nofollow" title="QQ群" target="_blank">
           <i class="users fa fa-users"></i>
         </a>
-        <a href="/atom.xml" rel="external nofollow" title="RSS" target="_blank">
+        <a href="/" rel="external nofollow" title="RSS" target="_blank">
           <i class="feed fa fa-feed"></i>
         </a>
       </div>
@@ -50,29 +50,21 @@
     <div class="widget">
       <h3 class="title">分类</h3>
       <ul class="category-list">
-        <li class="category-list-item"><a class="category-list-link" href="/categories/前端/">
-          <i class="fa"
-             aria-hidden="true">前端</i></a><span
-          class="category-list-count">1</span></li>
-        <li class="category-list-item"><a class="category-list-link" href="/categories/后端/">
-          <i class="fa"
-             aria-hidden="true">后端</i></a><span
-          class="category-list-count">1</span></li>
-        <li class="category-list-item"><a class="category-list-link" href="/categories/工具/">
-          <i class="fa"
-             aria-hidden="true">工具</i></a><span
-          class="category-list-count">1</span></li>
+        <li class="category-list-item" v-for="catalog in catalogs"><a class="category-list-link" :href="'/search?keyword='+catalog.name">
+          <i class="fa" aria-hidden="true">{{catalog.name}}</i></a><span
+          class="category-list-count">{{catalog.count}}</span></li>
       </ul>
     </div>
 
 
     <div class="widget">
       <h3 class="title">归档</h3>
-      <ul class="archive-list">
-        <li class="archive-list-item"><a class="archive-list-link" href="/timeline">
-          <i class="fa"
-             aria-hidden="true">2019年04月</i></a><span
-          class="archive-list-count">3</span></li>
+      <ul class="archive-list" v-for="archive in archives">
+        <li class="archive-list-item">
+          <a class="archive-list-link" href="/timeline">
+            <i class="fa" aria-hidden="true">{{archive.name}}</i>
+          </a><span class="archive-list-count">{{archive.count}}</span>
+        </li>
       </ul>
     </div>
 
@@ -101,18 +93,24 @@
       return {
         tags: [],
         input: "",
-        blogs: []
+        blogs: [],
+        catalogs: [],
+        archives: []
       }
     },
     mounted() {
       let _this = this;
       this.axios.all([
           this.axios.get("/api/restapi/tag"),
-          this.axios.get("/api/restapi/hottest")
+          this.axios.get("/api/restapi/hottest"),
+          this.axios.get("/api/restapi/catalog"),
+          this.axios.get("/api/restapi/archive")
         ]
-      ).then(this.axios.spread(function (tag, hottest) {
+      ).then(this.axios.spread(function (tag, hottest, catalog, archive) {
         _this.tags = tag.data;
         _this.blogs = hottest.data;
+        _this.catalogs = catalog.data;
+        _this.archives = archive.data;
       }))
     }
   }

@@ -39,14 +39,14 @@
       </article>
 
       <div class="article-nav prev-next-wrap clearfix">
-        <a :href="'/article/'+(1)" class="pre-post btn btn-default" title="Java自学路线推荐">
+        <a :href="'/article/'+(parseInt(`${this.$route.params.id}`)-1)" class="pre-post btn btn-default">
           <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
-          <span class="hidden-xs">Java自学路线推荐</span>
+          <span class="hidden-xs">上一篇</span>
         </a>
 
-        <a :href="'/article/'+(1)" class="next-post btn btn-default" title="Hello World">
+        <a :href="'/article/'+(parseInt(`${this.$route.params.id}`)+1)" class="next-post btn btn-default">
           <span class="hidden-lg">下一篇</span>
-          <span class="hidden-xs">Hello World</span><i class="fa fa-angle-right fa-fw"></i>
+          <span class="hidden-xs">下一篇</span><i class="fa fa-angle-right fa-fw"></i>
         </a>
       </div>
       <Message :commentUrl="'/api/restapi/comment?blogId='+ `${this.$route.params.id}`"
@@ -62,10 +62,8 @@
                 <header>
                   <img :src="emailToICO(item.email)">
                   <div class="i-name">
-                    {{item.userName}}
-                  </div>
-                  <div class="i-time">
-                    <time>{{new Date(item.createTime).toLocaleString()}}</time>
+                    {{item.userName}}&ensp;
+                    <span class="i-time"><time>{{new Date(item.createTime).toLocaleString()}}</time></span>
                   </div>
                 </header>
                 <section>
@@ -80,10 +78,8 @@
                     <header>
                       <img :src="emailToICO(item.email)">
                       <div class="i-name">
-                        {{cItem.userName}}
-                      </div>
-                      <div class="i-time">
-                        <time>{{new Date(cItem.createTime).toLocaleString()}}</time>
+                        {{cItem.userName}}&ensp;
+                        <span class="i-time"><time>{{new Date(item.createTime).toLocaleString()}}</time></span>
                       </div>
                     </header>
                     <section>
@@ -187,7 +183,10 @@
         return this.$refs.analyze.analyzeEmoji(content)
       },
       emailToICO(email) {
-        if (email.indexOf('@qq')!==-1) {
+        if (email === "1096445518@qq.com") {
+          return "/static/avatar.jpg"
+        }
+        if (email.indexOf('@qq') !== -1) {
           return 'http://q4.qlogo.cn/g?b=qq&nk=' + email.split('@')[0] + '&s=100'
         }
         return "/static/default-ico.jpg"

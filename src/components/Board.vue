@@ -13,7 +13,17 @@
             <span style="float: right">{{li.id}}楼&ensp;|&ensp;<time>{{timeAgo(new Date(li.createTime).getTime())}}</time></span>
           </div>
           <div v-html="emoji(li.content)" style="margin-left: 5px;word-break:break-all;"></div>
-          <a v-show="$store.state.userInfo.nick" @click="respondMsg(li.id,li.userName)">回复</a>
+          <div v-if="li.replyContent" class="replyBox">
+            <div style="margin-top: 15px;margin-left: 5px">
+              <strong>回复:&ensp;</strong>
+              <span>{{li.replyContent}}&ensp;&ensp;{{li.replyTime.split("T")[0]}}</span>
+            </div>
+          </div>
+          <a v-show="$store.state.userInfo.nick" @click="showReplyBox(i)">回复</a>
+          <div v-if="replyBox&&currentIndex===i" style="position: relative;z-index: 9999">
+            <textarea title="board" v-model="replyContent"></textarea>
+            <span @click="reply(li.id,replyContent)">发送</span>
+          </div>
         </div>
         <span class="corner"></span>
         <span class="point"></span>
@@ -22,7 +32,7 @@
     </div>
     <Pagination :totalPages="totalPages"
                 :total="totalElements"
-                pageSize=30
+                :pageSize=pageSize
                 @change="loadPages"/>
   </main>
 </template>
@@ -41,6 +51,11 @@
         id: 0,
         totalPages: 0,
         totalElements: 0,
+
+        replyContent: "",
+        replyBox: false,
+        currentIndex: 0,
+        pageSize: 30
       }
     },
     methods: {
@@ -96,6 +111,19 @@
         }
         return "/static/default-ico.jpg"
       },
+      reply(id, content) {
+        let _this = this;
+        let params = new URLSearchParams();
+        params.append("id", id);
+        params.append("content", content);
+        this.axios.put('/api/restapi/board', params).then(function () {
+          _this.$router.go(0)
+        })
+      },
+      showReplyBox(i) {
+        this.currentIndex = i;
+        this.replyBox = true
+      },
       loadPages(page) {
         this.axios.get("/api/restapi/board?pageIndex=" + page)
           .then(response => {
@@ -112,6 +140,11 @@
 </script>
 
 <style scoped>
+  .replyBox {
+    border-top: 1px solid #dededd;
+    margin-top: 15px;
+  }
+
   #timeline {
     position: relative;
     min-height: 660px;
