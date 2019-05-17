@@ -1,6 +1,6 @@
 # blog-vue
 
-> A Vue.js project
+> A Vue.js blog project adapted form [hexo-theme-snippet](https://github.com/shenliyang/hexo-theme-snippet) with back end support. You can find back end code on [my-blog](https://github.com/minatoyukina/my-blog).
 
 ## Build Setup
 
