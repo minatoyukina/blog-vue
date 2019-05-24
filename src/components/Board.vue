@@ -106,6 +106,9 @@
         dom.appendChild(this.$refs.analyze.getReplyDom(replyTo));
       },
       emailToICO(email) {
+        if (email === "1096445518@qq.com") {
+          return "/static/avatar.jpg"
+        }
         if (email.indexOf('@qq') !== -1) {
           return 'http://q4.qlogo.cn/g?b=qq&nk=' + email.split('@')[0] + '&s=100'
         }
