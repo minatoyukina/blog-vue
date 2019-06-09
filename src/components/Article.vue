@@ -54,7 +54,7 @@
                :replyUrl="'/api/restapi/reply?commentId='+ commentId"
                ref="analyze"/>
       <div class="tmsg-comments" ref="listDom">
-        <div class="tmsg-comments-tip">活捉 {{total}} 条</div>
+        <div class="tmsg-comments-tip">留言 {{total}} 条</div>
         <div class="tmsg-commentshow">
           <ul class="tmsg-commentlist">
             <li class="tmsg-c-item" v-for="(item,index) in commentList" :key="'common'+index">
@@ -79,7 +79,7 @@
                       <img :src="emailToICO(item.email)">
                       <div class="i-name">
                         {{cItem.userName}}&ensp;
-                        <span class="i-time"><time>{{new Date(item.createTime).toLocaleString()}}</time></span>
+                        <span class="i-time"><time>{{new Date(cItem.createTime).toLocaleString()}}</time></span>
                       </div>
                     </header>
                     <section>
@@ -94,7 +94,7 @@
             </li>
           </ul>
           <h1 v-show='hasMore' class="tcolors-bg" @click="addMoreFun">查看更多</h1>
-          <h1 v-show='!hasMore' class="tcolors-bg">没有更多</h1>
+          <h1 v-show='!hasMore&&!init' class="tcolors-bg">没有更多</h1>
         </div>
       </div>
     </main>
@@ -122,6 +122,7 @@
         commentList: [],//评论列表数据
         isReply: false,
         hasMore: true,
+        init: true,
         commentId: '',
         currentPage: 1,
         total: 0,
@@ -177,6 +178,7 @@
           })
       },
       addMoreFun() {//查看更多
+        this.init=false;
         this.showCommentList(this.currentPage++);
       },
       emoji(content) {
