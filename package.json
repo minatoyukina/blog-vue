@@ -13,6 +13,7 @@
     "axios": "^0.18.0",
     "bootstrap": "^3.4.1",
     "element-ui": "^2.8.2",
+    "highlight.js": "^9.15.8",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "vue": "^2.5.2",

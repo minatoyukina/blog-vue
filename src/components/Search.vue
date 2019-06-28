@@ -1,7 +1,7 @@
 <template>
   <main class="col-md-8 main-content">
     <ol class="breadcrumb">
-      <li>{{this.$route.fullPath.split("=")[1]}}</li>
+      <li>{{decodeURI(this.$route.fullPath.split("=")[1])}}</li>
     </ol>
 
     <article class="post" v-for="blog in blogs">

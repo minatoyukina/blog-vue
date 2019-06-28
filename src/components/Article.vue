@@ -106,6 +106,17 @@
   import Content from "./Content";
   import Message from "./Message";
 
+  import hljs from 'highlight.js'
+  import 'highlight.js/styles/atom-one-dark.css'
+
+  const highlightCode = () => {
+    const preEl = document.querySelectorAll('pre');
+
+    preEl.forEach((el) => {
+      hljs.highlightBlock(el)
+    })
+  };
+
   export default {
     name: "Article",
     components: {Message, Content},
@@ -208,6 +219,10 @@
         }).then(function () {
         _this.content();
       }).then(_this.showCommentList(0));
+      highlightCode()
+    },
+    updated () {
+      highlightCode()
     }
   }
 </script>
